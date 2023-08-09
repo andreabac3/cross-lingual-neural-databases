@@ -1,2 +1,7 @@
 googletrans
 numpy
+torch
+sentence-transformers==0.4.1.2
+transformers==4.5.1
+datasets
+transformers==4.6.0

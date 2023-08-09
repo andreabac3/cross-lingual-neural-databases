@@ -1,0 +1,3 @@
+[submodule "NeuralDB"]
+	path = NeuralDB
+	url = https://github.com/facebookresearch/NeuralDB

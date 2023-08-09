@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import argparse
 from collections import defaultdict
 from dataclasses import dataclass
@@ -55,8 +56,9 @@ def batch_translation(translation_api: Translator, lang: str, batch: List[Datase
     return translations
 
 
-
-def translate_wikinldb(exp_name: str, LANGUAGE_LIST, translate_query: bool, batch_size: int, file_list_to_translate: List[str]):
+def translate_wikinldb(
+    exp_name: str, LANGUAGE_LIST, translate_query: bool, batch_size: int, file_list_to_translate: List[str]
+):
     translation_api: Translator = Translator()
     dataset_folder_path = "WikiNLDB/v2.4_25/"
     obtain_dataset(dataset_folder_path)
@@ -108,22 +110,33 @@ def translate_wikinldb(exp_name: str, LANGUAGE_LIST, translate_query: bool, batc
                     json_lines[b.line_idx]["facts"][b.sentence_id] = translation
 
         os.makedirs(f"out/{exp_name}/", exist_ok=True)
-        write_jsonl(f"out/{exp_name}/{''.join(LANGUAGE_LIST)}_{dataset_filename}",
-                    json_lines)
+        write_jsonl(f"out/{exp_name}/{''.join(LANGUAGE_LIST)}_{dataset_filename}", json_lines)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Batch Translation Script')
-    parser.add_argument('--translate_query', action='store_true', help='Translate query')
-    parser.add_argument('--batch_size', default=100, type=int, help='Choose a positive integer for batch size')
-    parser.add_argument('--language_list', nargs='+', default=['DE', 'EN', 'ES', 'FR', 'IT', 'zh-cn'], help="Write a list of languages to translate to. Do not use square brackets. Example: --language_list DE EN ES FR IT zh-cn")
-    parser.add_argument('--file_list_to_translate', nargs='+', default=["train.jsonl", "dev.jsonl", "test.jsonl"], help="Write a list of files to translate. Do not use square brackets. Example: --file_list_to_translate train.jsonl dev.jsonl test.jsonl")
-    parser.add_argument('--exp_name', type=str, default="cross-lingual-FQ", help='Choose an exp name')
+    parser = argparse.ArgumentParser(description="Batch Translation Script")
+    parser.add_argument("--translate_query", action="store_true", help="Translate query")
+    parser.add_argument("--batch_size", default=100, type=int, help="Choose a positive integer for batch size")
+    parser.add_argument(
+        "--language_list",
+        nargs="+",
+        default=["DE", "EN", "ES", "FR", "IT", "zh-cn"],
+        help="Write a list of languages to translate to. Do not use square brackets. Example: --language_list DE EN ES FR IT zh-cn",
+    )
+    parser.add_argument(
+        "--file_list_to_translate",
+        nargs="+",
+        default=["train.jsonl", "dev.jsonl", "test.jsonl"],
+        help="Write a list of files to translate. Do not use square brackets. Example: --file_list_to_translate train.jsonl dev.jsonl test.jsonl",
+    )
+    parser.add_argument("--exp_name", type=str, default="cross-lingual-FQ", help="Choose an exp name")
 
     args = parser.parse_args()
 
-    translate_wikinldb(args.exp_name, args.language_list, translate_query=args.translate_query,
-                       batch_size=args.batch_size, file_list_to_translate=args.file_list_to_translate)
-
-
-
+    translate_wikinldb(
+        args.exp_name,
+        args.language_list,
+        translate_query=args.translate_query,
+        batch_size=args.batch_size,
+        file_list_to_translate=args.file_list_to_translate,
+    )

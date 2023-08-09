@@ -16,14 +16,22 @@ Experimental results indeed show that the F1 score increases from 34.94\% in a z
 Coming soon
 ```bibtex
 
-
-
 ```
 
 
 ## Translate Dataset
+
+X-WikiNLDB FQ
 ```bash
-
-
-
+python3 google_translate_batch.py --exp_name cross-lingual-FQ --translate_query --list_file_to_translate train.jsonl dev.jsonl test.jsonl
 ```
+
+Monolingual baselines
+```bash
+python3 google_translate_batch.py --exp_name monolingual-FQ-French --translate_query --list_file_to_translate test.jsonl --language_list FR
+python3 google_translate_batch.py --exp_name monolingual-FQ-Italian --translate_query --list_file_to_translate test.jsonl --language_list IT
+...
+```
+
+You can find the whole procedure by executing the file build_dataset.sh
+
